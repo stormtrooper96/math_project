@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace math_pj_a
 {
-    public partial class Form1 : Form
+    public partial class inv : Form
     {
-        public Form1()
+        public inv()
         {
             InitializeComponent();
         }
