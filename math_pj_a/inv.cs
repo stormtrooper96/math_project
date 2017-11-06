@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Npgsql;
+using System.IO;
+
 
 namespace math_pj_a
 {
@@ -15,6 +17,8 @@ namespace math_pj_a
     {
         private DataSet ds = new DataSet();
         private DataTable dt = new DataTable();
+        private String sqlpath = "C:\\Users\\japar\\source\\repos\\math_pj_a\\math_pj_a\\SQL\\";
+        private String credentials = "Server=127.0.0.1;User Id = postgres;" + "Password=postgres;Database=ring;";
         public inv()
         {
             InitializeComponent();
@@ -24,25 +28,17 @@ namespace math_pj_a
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
 
         {
-            NpgsqlConnection conn = new NpgsqlConnection("Server=127.0.0.1;User Id=postgres;" + "Password=postgres;Database=ring;");
+            NpgsqlConnection conn = new NpgsqlConnection(credentials);
             conn.Open();
-            // Define a query
-            string sql = "SELECT * FROM simple_table";
-            // data adapter making request from our connection
+            FileInfo file = new FileInfo((sqlpath + "seleccionar_inventario.sql"));
+            string sql = file.OpenText().ReadToEnd();
             NpgsqlDataAdapter da = new NpgsqlDataAdapter(sql, conn);
-        // i always reset DataSet before i do
-        // something with it.... i don't know why :-)
-
-        // filling DataSet with result from NpgsqlDataAdapter
             da.Fill(ds);
-            // since it C# DataSet can handle multiple tables, we will select first
             dt = ds.Tables[0];
-            // connect grid to DataTable
             dataGridView1.DataSource = dt;
-            // since we only showing the result we don't need connection anymore
             conn.Close();
             }
         }
